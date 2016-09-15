@@ -30,19 +30,19 @@
         </div>
 
         <div class="form-group">
-            <label for="inputQuestion1">问题1</label>
+            <label for="inputQuestion1">问题</label>
             <input type="text" class="form-control" id="inputQuestion1" name="question1" value="{{ $question1 }}">
         </div>
 
-        <div class="form-group">
-            <label for="inputQuestion1">问题2</label>
-            <input type="text" class="form-control" id="inputQuestion2" name="question2" value="{{ $question2 }}">
-        </div>
+        {{--<div class="form-group">--}}
+            {{--<label for="inputQuestion1">问题2</label>--}}
+            {{--<input type="text" class="form-control" id="inputQuestion2" name="question2" value="{{ $question2 }}">--}}
+        {{--</div>--}}
 
-        <div class="form-group">
-            <label for="inputQuestion1">问题3</label>
-            <input type="text" class="form-control" id="inputQuestion3" name="question3" value="{{ $question3 }}">
-        </div>
+        {{--<div class="form-group">--}}
+            {{--<label for="inputQuestion1">问题3</label>--}}
+            {{--<input type="text" class="form-control" id="inputQuestion3" name="question3" value="{{ $question3 }}">--}}
+        {{--</div>--}}
 
         <div class="form-group">
             <button type="submit" class="btn btn-default">保存</button>
