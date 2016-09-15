@@ -124,7 +124,7 @@ class UserController extends Controller
                 ->where('apply_status', 'applying')
                 ->count();
 
-            $share_link = url('invite/' . $user['id'] . '/' . str_random(24));
+            $share_link = url('invite/' . $user['id']);
 
             return view('apply', [
                 'name' => $name,
