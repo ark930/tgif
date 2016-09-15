@@ -14,26 +14,34 @@
     <form role="form" method="post">
         {{ csrf_field() }}
         <div class="form-group">
-            <label for="inputName">姓名</label>
+            <label for="inputName">你的姓名</label>
             <span class="text-danger">{{ Session::get('error1') }}</span>
             <input type="text" class="form-control" id="inputName" name="name" value="{{ $name }}">
         </div>
         <div class="form-group">
-            <label for="inputCompany">公司</label>
+            <label for="inputCompany">你的公司</label>
             <span class="text-danger">{{ Session::get('error2') }}</span>
             <input type="text" class="form-control" id="inputCompany" name="company" value="{{ $company }}">
         </div>
         <div class="form-group">
-            <label for="inputPosition">职位</label>
+            <label for="inputPosition">你的职位</label>
             <span class="text-danger">{{ Session::get('error3') }}</span>
             <input type="text" class="form-control" id="inputPosition" name="position" value="{{ $position }}">
         </div>
 
-        <label>问题</label>
-        <div class="list-group">
-            <a class="list-group-item">1. 你是谁?</a>
-            <a class="list-group-item">2. 你从哪里来?</a>
-            <a class="list-group-item">3. 你要到哪里去?</a>
+        <div class="form-group">
+            <label for="inputQuestion1">问题1</label>
+            <input type="text" class="form-control" id="inputQuestion1" name="question1" value="{{ $question1 }}">
+        </div>
+
+        <div class="form-group">
+            <label for="inputQuestion1">问题2</label>
+            <input type="text" class="form-control" id="inputQuestion2" name="question2" value="{{ $question2 }}">
+        </div>
+
+        <div class="form-group">
+            <label for="inputQuestion1">问题3</label>
+            <input type="text" class="form-control" id="inputQuestion3" name="question3" value="{{ $question3 }}">
         </div>
 
         <div class="form-group">
@@ -44,7 +52,7 @@
 
     <hr>
 
-
+    <p>邀请好友链接: {{ $share_link }}</p>
 
 
 

@@ -55,6 +55,9 @@ class UserController extends Controller
             $name = $request->input('name');
             $company_name = $request->input('company');
             $position = $request->input('position');
+            $question1 = $request->input('question1');
+            $question2 = $request->input('question2');
+            $question3 = $request->input('question3');
 
             if(empty($name)) {
                 return redirect()->back()->with('error1', '(请填写名称)');
@@ -102,6 +105,9 @@ class UserController extends Controller
             $company = null;
             $position = null;
             $rank = null;
+            $question1 = null;
+            $question2 = null;
+            $question3 = null;
 
             $employee = Employee::where('user_id', $user['id'])->first();
             if(!empty($employee)) {
@@ -118,11 +124,17 @@ class UserController extends Controller
                 ->where('apply_status', 'applying')
                 ->count();
 
+            $share_link = url('invite/' . $user['id'] . '/' . str_random(24));
+
             return view('apply', [
                 'name' => $name,
                 'company' => $company,
                 'position' => $position,
                 'rank' => $rank,
+                'question1' => $question1,
+                'question2' => $question2,
+                'question3' => $question3,
+                'share_link' => $share_link,
             ]);
         }
     }
