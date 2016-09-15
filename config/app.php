@@ -178,6 +178,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\SMSServiceProvider::class,
+//        App\Providers\UserAuthServiceProvider::class,
     ],
 
     /*
