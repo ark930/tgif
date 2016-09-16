@@ -45,7 +45,25 @@ Route::group(['middleware' => 'user_auth'], function() {
 });
 
 // 后台管理页面
-Route::get('admin', 'Page\AdminController@index');
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => 'admin_auth',
+], function() {
+    Route::get('/', 'Page\AdminController@index');
+
+    Route::get('apply', ['as' => 'admin_apply', 'uses' => 'Page\AdminController@apply']);
+    Route::get('approve', ['as' => 'admin_approve', 'uses' => 'Page\AdminController@approve']);
+    Route::get('reject', ['as' => 'admin_reject', 'uses' => 'Page\AdminController@reject']);
+
+    Route::post('apply/{action}/{user_id}', 'Page\AdminController@doApply')
+        ->where([
+            'action' => '(approve|reject)',
+            'user_id' => '[0-9]+'
+        ]);
+
+    Route::get('data', ['as' => 'admin_data', 'uses' => 'Page\AdminController@data']);
+
+});
 
 // 邀请页面
 Route::get('invite/{user_id}', 'Page\UserController@invite')
