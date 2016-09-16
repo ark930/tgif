@@ -21,7 +21,7 @@
         <div class="form-group">
             <label for="inputCompany">你的公司</label>
             <span class="text-danger">{{ Session::get('error2') }}</span>
-            <input type="text" class="form-control" id="inputCompany" name="company" value="{{ $company }}">
+            <input type="text" class="form-control" id="inputCompany" name="company_name" value="{{ $company_name }}">
         </div>
         <div class="form-group">
             <label for="inputPosition">你的职位</label>
@@ -31,6 +31,7 @@
 
         <div class="form-group">
             <label for="inputQuestion1">问题</label>
+            <span class="text-danger">{{ Session::get('error4') }}</span>
             <input type="text" class="form-control" id="inputQuestion1" name="question1" value="{{ $question1 }}">
         </div>
 
@@ -52,8 +53,5 @@
 
     <hr>
 
-    <p>邀请好友链接: {{ $share_link }}</p>
-
-
-
+    <p>邀请好友链接: {{ $invite_link }}</p>
 @endsection

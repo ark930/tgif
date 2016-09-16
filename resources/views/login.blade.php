@@ -25,7 +25,7 @@
             <span class="text-danger">{{ Session::get('error3') }}</span>
         </div>
     </form>
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
 
     <script>
         $(function() {

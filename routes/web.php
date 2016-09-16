@@ -22,7 +22,8 @@ Route::match(['get', 'post'], 'login', 'Page\UserController@login');
 // 需要用户登录才能访问的接口
 Route::group(['middleware' => 'user_auth'], function() {
     // 审核页面
-    Route::match(['get', 'post'], 'apply', 'Page\UserController@apply');
+    Route::get('apply', 'Page\UserController@applyGet');
+    Route::post('apply', 'Page\UserController@applyPost');
 
     // 需要审核通过才能访问的接口
     Route::group(['middleware' => 'apply_auth'], function() {
@@ -42,3 +43,10 @@ Route::group(['middleware' => 'user_auth'], function() {
         }]);
     });
 });
+
+// 后台管理页面
+Route::get('admin', 'Page\AdminController@index');
+
+// 邀请页面
+Route::get('invite/{user_id}', 'Page\UserController@invite')
+    ->where('user_id', '[0-9]+');

@@ -7,6 +7,7 @@
 
         <title>KYC</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        {{--<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
     </head>
     <body>
         <div class="container">
@@ -14,6 +15,7 @@
 
             @show
         </div>
-        <script src="{{ asset('js/app.js') }}"></script>
+{{--        <script src="{{ asset('js/app.js') }}"></script>--}}
+        <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 </html>

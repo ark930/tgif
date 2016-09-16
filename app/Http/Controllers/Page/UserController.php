@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Page;
 
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Form;
+use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -47,95 +49,100 @@ class UserController extends Controller
         }
     }
 
-    public function apply(Request $request)
+    public function applyGet(Request $request)
+    {
+        $user = Session::get('user');
+        $user = User::find($user['id']);
+        Session::put('user', $user);
+
+        if($user['apply_status'] == 'approve') {
+            return redirect()->route('people');
+        }
+
+        return view('apply', $user->getApplyInfo());
+    }
+
+    public function applyPost(Request $request)
     {
         $user = Session::get('user');
 
-        if($request->isMethod('post')) {
-            $name = $request->input('name');
-            $company_name = $request->input('company');
-            $position = $request->input('position');
-            $question1 = $request->input('question1');
-            $question2 = $request->input('question2');
-            $question3 = $request->input('question3');
+        $name = $request->input('name');
+        $company_name = $request->input('company_name');
+        $position = $request->input('position');
+        $question1 = $request->input('question1');
 
-            if(empty($name)) {
-                return redirect()->back()->with('error1', '(请填写名称)');
-            }
+        if(empty($name)) {
+            return redirect()->back()->with('error1', '(请填写名称)');
+        }
 
-            if(empty($company_name)) {
-                return redirect()->back()->with('error2', '(请填写公司名)');
-            }
+        if(empty($company_name)) {
+            return redirect()->back()->with('error2', '(请填写公司名)');
+        }
 
-            if(empty($position)) {
-                return redirect()->back()->with('error3', '(请填写职位)');
-            }
+        if(empty($position)) {
+            return redirect()->back()->with('error3', '(请填写职位)');
+        }
 
-            $user['real_name'] = $name;
-            $user->save();
+        if(empty($question1)) {
+            return redirect()->back()->with('error4', '(请填写问题)');
+        }
 
-            $employee = Employee::where('user_id', $user['id'])->first();
-            if(empty($employee)) {
-                $employee = new Employee();
-                $employee['user_id'] = $user['id'];
-                $employee['role'] = 'owner';
-            }
-            $employee['real_name'] = $name;
-            $employee['position'] = $position;
-            $employee->save();
+        $user['real_name'] = $name;
 
-            $company = Company::where('ceo_id', $employee['id'])->first();
-            if(empty($company)) {
-                $company = new Company();
-                $company['ceo_id'] = $employee['id'];
-            }
+        $employee = $user->nowEmployee;
+        if(empty($employee)) {
+            $employee = new Employee();
+            $employee['user_id'] = $user['id'];
+            $employee['role'] = 'owner';
+        }
+        $employee['real_name'] = $name;
+        $employee['position'] = $position;
+
+        $company = $employee->company;
+        if(empty($company)) {
+            $company = new Company();
+            $company['ceo_id'] = $employee['id'];
             $company['company_name'] = $company_name;
             $company->save();
 
-            return redirect('apply')->with('success', '保存成功');
+            $company->employees()->save($employee);
+            $company->ceo()->associate($employee);
+//            $employee->company()->associate($company);
+            $employee['company_id'] = $company['id'];
         } else {
-            $user = User::find($user['id']);
-            Session::put('user', $user);
-
-            if($user['apply_status'] == 'approve') {
-                return redirect()->route('people');
-            }
-
-            $name = null;
-            $company = null;
-            $position = null;
-            $rank = null;
-            $question1 = null;
-            $question2 = null;
-            $question3 = null;
-
-            $employee = Employee::where('user_id', $user['id'])->first();
-            if(!empty($employee)) {
-                $name = $employee['real_name'];
-                $position = $employee['position'];
-
-                $company = Company::where('ceo_id', $employee['id'])->first();
-                if(!empty($company)) {
-                    $company = $company['company_name'];
-                }
-            }
-
-            $rank = User::where('created_at', '<=', $user['created_at'])
-                ->where('apply_status', 'applying')
-                ->count();
-
-            $share_link = url('invite/' . $user['id']);
-
-            return view('apply', [
-                'name' => $name,
-                'company' => $company,
-                'position' => $position,
-                'rank' => $rank,
-                'question1' => $question1,
-                'question2' => $question2,
-                'question3' => $question3,
-                'share_link' => $share_link,
-            ]);
+            $company['company_name'] = $company_name;
         }
+        $company->save();
+        $employee->save();
+//        $user->employees()->save($employee);
+        $user->nowEmployee()->associate($employee);
+        $user->save();
+
+        $question = new Question();
+        $question['question'] = $question1;
+        $question->save();
+
+        $form = new Form();
+        $form['editor_id'] = $employee['id'];
+        $form->save();
+        $form->questions()->attach($question['id']);
+
+        $company['form_id'] = $form['id'];
+        $company->save();
+
+        return redirect('apply')->with('success', '保存成功');
     }
+
+    public function invite($user_id)
+    {
+        $user = User::find($user_id);
+
+        if(!empty($user)) {
+            $user['invite_count'] += 1;
+            $user->save();
+        }
+
+        return redirect('/');
+    }
+
 }
