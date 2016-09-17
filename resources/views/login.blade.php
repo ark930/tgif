@@ -10,18 +10,16 @@
     <div class="form_login">
         <form style="padding: 0.5rem" class="phone" method="post">
             {{ csrf_field() }}
-            <input type="text" placeholder="输入你的手机" name="username" value="{{ old('username') }}" id="username">
-            <button class="submit" id="requireVerifyCode">发送验证码</button>
-            <span class="text-danger">{{ Session::get('error1') }}</span>
+            <input type="text" placeholder="输入你的手机" name="username" value="{{ old('username') ? old('username') : Session::get('username') }}" id="username">
+            <button class="btn-danger" id="requireVerifyCode">发送验证码</button>
 
             <input type="text" placeholder="输入短信验证码" name="password" value="{{ old('password') }}">
             <button class="submit">下一步</button>
-            <span class="text-danger">{{ Session::get('error2') }}</span>
-            <span class="text-danger">{{ Session::get('error3') }}</span>
         </form>
     </div>
+@endsection
 
-
+@section('custom_script')
     <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
 
     <script>
@@ -30,15 +28,11 @@
                 e.preventDefault();
 
                 var username = $('#username').val();
-                if (!username) {
-                    alert('请输入手机号');
-                    return;
-                }
 
                 $.ajax({
                     url: 'api/v1/verifycode',
                     data: {
-                        tel: username
+                        username: username
                     },
                     type: 'post',
                     dataType: 'json',
@@ -53,7 +47,8 @@
             function errorHandler(data)
             {
                 var error = JSON.parse(data.responseText);
-                alert(error.msg);
+                console.log(error);
+                alert(error.username[0]);
             }
 
             function countdown(time, button) {

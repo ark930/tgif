@@ -15,5 +15,17 @@
     @section('content')
 
     @show
+
+    @if($errors->count() > 0)
+        <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+
+        <script>
+            $(function() {
+                alert('{{ $errors->first() }}');
+            });
+        </script>
+    @endif
+
+    @yield('custom_script')
 </body>
 </html>

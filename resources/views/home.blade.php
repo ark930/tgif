@@ -18,12 +18,15 @@
         </div>
     </div>
     <div class="phone">
-        <div class="g1">
-            <input type="phone" placeholder="输入你的手机">
-            <button>免费试用</button>
-        </div>
+        <form class="g1" method="post">
+            {{ csrf_field() }}
+            <input type="phone" placeholder="输入你的手机" name="username">
+{{--            <p>{{ $errors }}</p>--}}
+            <button type="submit">免费试用</button>
+        </form>
         <div class="g2">
             <p>一分钟设置完毕 · 无订阅费</p>
         </div>
     </div>
+
 @endsection

@@ -14,25 +14,52 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+
+    public function freeTrial(Request $request)
+    {
+        $this->validate($request, [
+            'username' => 'required|regex:/^1\d{10}$/',
+        ], [
+            'username.required' => '请填写手机号',
+            'username.regex' => '请填写正确的手机号',
+        ]);
+
+        $username = $request->input('username');
+
+        return redirect('/login')->with('username', $username);
+    }
+
     public function login(Request $request)
     {
         if($request->isMethod('post')) {
+
+            $this->validate($request, [
+                'username' => 'required|regex:/^1\d{10}$/',
+                'password' => 'required|regex:/^\d{6}$/',
+            ], [
+                'username.required' => '请填写手机号',
+                'username.regex' => '请填写正确的手机号',
+                'password.required' => '请填写验证码',
+                'password.regex' => '验证码格式不正确',
+            ]);
+
             $username = $request->input('username');
             $password = $request->input('password');
-
-            if(empty($username)) {
-                return redirect()->back()->with('error1', '(请填写手机号)')->withInput();
-            }
-
-            if(empty($password)) {
-                return redirect()->back()->with('error2', '(请填写验证码)')->withInput();
-            }
 
             $user = User::where('tel', $username)
                 ->where('verify_code', $password)
                 ->first();
             if(empty($user)) {
-                return redirect()->back()->with('error3', '(用户名或验证码错误)')->withInput();
+                return redirect()->back()->withErrors('用户名或验证码错误')->withInput();
+            }
+
+            // 保存邀请人信息
+            if(Session::has('inviter_id')) {
+                $inviter_id = Session::pull('inviter_id');
+                if(!empty((User::find($inviter_id)))) {
+                    $user['inviter_id'] = $inviter_id;
+                    $user->save();
+                }
             }
 
             Session::put('user', $user);
@@ -71,18 +98,34 @@ class UserController extends Controller
 
         if(isset($save_question)) {
             // 保存问题
-            $question1 = $request->input('question1');
-            if(empty($question1)) {
-                return redirect()->back()->with('error_question1', '(请填写问题)')->withInput();
-            }
+            $this->validate($request, [
+                'question1' => 'required',
+            ], [
+                'question1.required' => '请填写问题',
+            ]);
 
+            $question1 = $request->input('question1');
             $this->save_apply_info($user, $question1);
         } else if(isset($save_basic_info)) {
             // 保存基本信息
+            $this->validate($request, [
+                'name' => 'required',
+                'company_name' => 'required',
+                'position' => 'required',
+                'company_count' => 'required|integer|min:1',
+            ], [
+                'name.required' => '请填写你的姓名',
+                'company_name.required' => '请填写你的公司',
+                'position.required' => '请填写你的职位',
+                'company_count.required' => '请填写公司人数',
+                'company_count.integer' => '公司人数必须是个数字',
+                'company_count.min' => '公司人数至少是1',
+            ]);
+
             $name = $request->input('name');
             $company_name = $request->input('company_name');
-            $company_count = $request->input('company_count');
             $position = $request->input('position');
+            $company_count = $request->input('company_count');
 
             if(empty($name)) {
                 return redirect()->back()->with('error_name', '(请填写名称)')->withInput();
@@ -114,8 +157,11 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         if(!empty($user)) {
-            $user['invite_count'] += 1;
-            $user->save();
+//            $user['invite_count'] += 1;
+//            $user->save();
+            Session::put('inviter_id', $user_id);
+        } else {
+            return response('无效的链接', 404);
         }
 
         return redirect('/');

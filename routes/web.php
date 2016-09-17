@@ -16,6 +16,13 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::post('/', 'Page\UserController@freeTrial');
+
+
+// 邀请页面
+Route::get('invite/{user_id}', 'Page\UserController@invite')
+    ->where('user_id', '[0-9]+');
+
 // 登录页面
 Route::match(['get', 'post'], 'login', 'Page\UserController@login');
 
@@ -64,7 +71,3 @@ Route::group([
     Route::get('data', ['as' => 'admin_data', 'uses' => 'Page\AdminController@data']);
 
 });
-
-// 邀请页面
-Route::get('invite/{user_id}', 'Page\UserController@invite')
-    ->where('user_id', '[0-9]+');

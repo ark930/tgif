@@ -30,11 +30,14 @@ class UserController extends BaseController
      */
     public function verifyCode(Request $request, SMSServiceContract $SMS)
     {
-        $this->validateParams($request->all(), [
-            'tel' => 'required',
+        $this->validate($request, [
+            'username' => 'required|regex:/^1\d{10}$/',
+        ], [
+            'username.required' => '请填写手机号',
+            'username.regex' => '请填写正确的手机号',
         ]);
 
-        $username = $request->input('tel');
+        $username = $request->input('username');
 
         $user = User::where('tel', $username)->first();
         if(empty($user)) {
