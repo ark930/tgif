@@ -66,8 +66,6 @@ class UserController extends Controller
 
             if($user['apply_status'] == 'approve') {
                 return redirect()->route('people');
-            } else if($user['apply_status'] == 'reject') {
-                return '审核未通过';
             } else {
                 return redirect('apply');
             }
@@ -126,22 +124,6 @@ class UserController extends Controller
             $company_name = $request->input('company_name');
             $position = $request->input('position');
             $company_count = $request->input('company_count');
-
-            if(empty($name)) {
-                return redirect()->back()->with('error_name', '(请填写名称)')->withInput();
-            }
-
-            if(empty($company_name)) {
-                return redirect()->back()->with('error_company_name', '(请填写公司名)')->withInput();
-            }
-
-            if(empty($position)) {
-                return redirect()->back()->with('error_position', '(请填写职位)')->withInput();
-            }
-
-            if(empty($company_count)) {
-                return redirect()->back()->with('error_company_count', '(请填写公司人数)')->withInput();
-            }
 
             $this->save_apply_info($user, null, $name, $position, $company_name, $company_count);
         } else {

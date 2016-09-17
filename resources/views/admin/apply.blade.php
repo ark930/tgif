@@ -40,10 +40,10 @@
                             {{ csrf_field() }}
                             <button type="submit" class="btn btn-sm btn-success">通过</button>
                         </form>
-                        <form method="post" action="/admin/apply/reject/{{ $user['id'] }}" style="display: inline;">
-                            {{ csrf_field() }}
-                            <button type="submit" class="btn btn-sm btn-danger">拒绝</button>
-                        </form>
+                        {{--<form method="post" action="/admin/apply/reject/{{ $user['id'] }}" style="display: inline;">--}}
+                            {{--{{ csrf_field() }}--}}
+                            {{--<button type="submit" class="btn btn-sm btn-danger">拒绝</button>--}}
+                        {{--</form>--}}
                     </td>
                 @endif
             </tr>
