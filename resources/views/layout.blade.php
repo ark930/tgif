@@ -29,6 +29,13 @@
     </script>
 </head>
 <body>
+    <div class="header raw_lr">
+        <a href="{{ url('/') }}" class="home left">
+            <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
+            @yield('left_top_button')
+        </a>
+    </div>
+
     @section('content')
 
     @show

@@ -4,13 +4,11 @@
     <link href="{{ asset('style/queue.css') }}" rel="stylesheet" media="screen">
 @show
 
+@section('left_top_button')
+    <a href="{{ url('/logout') }}" class="right btn_login btn_cta">{{ Session::get('user')['tel'] }}</a>
+@endsection
+
 @section('content')
-    <div class="header raw_lr">
-        <a href="{{ url('/') }}" class="home left">
-            <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
-        </a>
-        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
-    </div>
     <div class="hero"><span id="queue">{{ $rank }}</span><br>
         <p>个用户正排在你前面</p>
         <p>要更早开始使用，你可以通过一下几种方式</p>

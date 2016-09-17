@@ -1,12 +1,10 @@
 @extends('layout')
 
+@section('left_top_button')
+    <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
+@endsection
+
 @section('content')
-    <div class="header raw_lr">
-        <a href="{{ url('/') }}" class="home left">
-            <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
-        </a>
-        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
-    </div>
     <div class="hero">
         <div class="raw_lineline">
             <div class="grid g1">
@@ -21,7 +19,6 @@
         <form class="g1" method="post">
             {{ csrf_field() }}
             <input type="phone" placeholder="输入你的手机" name="username">
-{{--            <p>{{ $errors }}</p>--}}
             <button type="submit" class="btn_success">免费试用</button>
         </form>
         <div class="g2">

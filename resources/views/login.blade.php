@@ -1,12 +1,10 @@
 @extends('layout')
 
+@section('left_top_button')
+    <a href="{{ url('/') }}" class="right btn_login btn_cta">返回首页</a>
+@endsection
+
 @section('content')
-    <div class="header raw_lr">
-        <a href="{{ url('/login') }}" class="home left">
-            <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
-        </a>
-        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
-    </div>
     <div class="form_login">
         <form style="padding: 0.5rem" class="phone" method="post">
             {{ csrf_field() }}
@@ -30,6 +28,7 @@
             });
 
             @if(Session::has('get_verify_code'))
+                console.log('get_verify_code');
                 $('#requireVerifyCode').click();
             @endif
 

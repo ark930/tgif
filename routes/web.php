@@ -26,6 +26,13 @@ Route::get('invite/{user_id}', 'Page\UserController@invite')
 // 登录页面
 Route::match(['get', 'post'], 'login', 'Page\UserController@login');
 
+// 登出
+Route::get('logout', function () {
+    Session::flush();
+    Session::regenerate();
+    return redirect('/login');
+});
+
 // 需要用户登录才能访问的接口
 Route::group(['middleware' => 'user_auth'], function() {
     // 审核页面
