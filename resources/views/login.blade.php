@@ -5,16 +5,15 @@
         <a href="{{ url('/login') }}" class="home left">
             <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
         </a>
-        <a href="{{ url('/login') }}" class="right btn_login">登入</a>
+        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
     </div>
     <div class="form_login">
         <form style="padding: 0.5rem" class="phone" method="post">
             {{ csrf_field() }}
             <input type="text" placeholder="输入你的手机" name="username" value="{{ old('username') ? old('username') : Session::get('username') }}" id="username">
-            <button class="btn-danger" id="requireVerifyCode">发送验证码</button>
-
+            <button class="submit btn_cta" id="requireVerifyCode">发送验证码</button>
             <input type="text" placeholder="输入短信验证码" name="password" value="{{ old('password') }}">
-            <button class="submit">下一步</button>
+            <button class="submitbtn_success btn_success">下一步</button>
         </form>
     </div>
 @endsection

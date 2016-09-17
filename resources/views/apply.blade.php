@@ -9,6 +9,7 @@
         <a href="{{ url('/') }}" class="home left">
             <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
         </a>
+        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
     </div>
     <div class="hero"><span id="queue">{{ $rank }}</span><br>
         <p>个用户正排在你前面</p>
@@ -22,7 +23,7 @@
             <h6 class="title">说说你最想问你的员工哪些问题？</h6>
             <textarea id="fill_questions" wrap="on" type="text" name="question1">{{ null !== old('question1') ? old('question1') : $question1 }}</textarea>
             <span class="text-danger">{{ Session::get('error_question1') }}</span>
-            <button id="submit_question" class="submit">保存</button>
+            <button id="submit_question" class="submit btn_cta">保存</button>
         </form>
     </div>
     <div class="step step2">
@@ -55,7 +56,7 @@
                 <input type="text" name="company_count" value="{{ null !== old('company_count') ? old('company_count') : $company_count }}">
                 <span class="text-danger">{{ Session::get('error_company_count') }}</span>
             </div>
-            <button id="submit_personinfo" class="submit">保存</button>
+            <button id="submit_personinfo" class="submit btn_cta">保存</button>
         </form>
     </div>
 @endsection

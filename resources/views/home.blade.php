@@ -5,7 +5,7 @@
         <a href="{{ url('/') }}" class="home left">
             <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
         </a>
-        <a href="{{ url('/login') }}" class="right btn_login">登入</a>
+        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
     </div>
     <div class="hero">
         <div class="raw_lineline">
@@ -22,7 +22,7 @@
             {{ csrf_field() }}
             <input type="phone" placeholder="输入你的手机" name="username">
 {{--            <p>{{ $errors }}</p>--}}
-            <button type="submit">免费试用</button>
+            <button type="submit" class="btn_success">免费试用</button>
         </form>
         <div class="g2">
             <p>一分钟设置完毕 · 无订阅费</p>

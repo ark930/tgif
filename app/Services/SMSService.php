@@ -42,12 +42,12 @@ class SMSService implements SMSServiceContract
             $body = $e->getResponse()->getBody();
             $message = \GuzzleHttp\json_decode($body, true)['msg'];
 
-//            throw new BadRequestException($message, $code);
-            return redirect('/login')->withErrors($message)->withInput();
+            throw new BadRequestException($message, $code);
+//            return redirect('/login')->withErrors($message)->withInput();
         }
 
-        return redirect('/login')->withErrors($e->getMessage())->withInput();
-//        throw new BadRequestException($e->getMessage(), $e->getCode());
+//        return redirect('/login')->withErrors($e->getMessage())->withInput();
+        throw new BadRequestException($e->getMessage(), $e->getCode());
     }
 
 }
