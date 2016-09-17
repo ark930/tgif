@@ -27,6 +27,15 @@
             $('#requireVerifyCode').click(function (e) {
                 e.preventDefault();
 
+                getVerifyCode();
+            });
+
+            @if(Session::has('get_verify_code'))
+                $('#requireVerifyCode').click();
+            @endif
+
+            function getVerifyCode()
+            {
                 var username = $('#username').val();
 
                 $.ajax({
@@ -42,7 +51,7 @@
                     },
                     error: errorHandler
                 });
-            });
+            }
 
             function errorHandler(data)
             {
@@ -55,9 +64,11 @@
                 console.log(time);
                 if (time == 0) {
                     button.attr("disabled", false);
+                    button.addClass('btn_disable');
                     button.text("获取");
                 } else {
                     button.attr("disabled", true);
+                    button.removeClass('btn_disable');
                     button.text("重新发送(" + time + ")");
                     time--;
                     setTimeout(function () {
