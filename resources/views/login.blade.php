@@ -62,11 +62,13 @@
                 console.log(time);
                 if (time == 0) {
                     button.attr("disabled", false);
-                    button.addClass('btn_disable');
+                    button.removeClass('btn_disable');
+                    button.addClass('btn_cta');
                     button.text("获取");
                 } else {
                     button.attr("disabled", true);
-                    button.removeClass('btn_disable');
+                    button.removeClass('btn_cta');
+                    button.addClass('btn_disable');
                     button.text("重新发送(" + time + ")");
                     time--;
                     setTimeout(function () {
