@@ -26,7 +26,10 @@ class UserController extends Controller
 
         $username = $request->input('username');
 
-        return redirect('/login')->with('username', $username);
+        return redirect('/login')->with([
+            'username' => $username,
+            'get_verify_code' => true,
+        ]);
     }
 
     public function login(Request $request)
