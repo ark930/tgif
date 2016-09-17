@@ -20,7 +20,7 @@
             {{ csrf_field() }}
             <input type="hidden" name="save_question" value="true">
             <h6 class="title">说说你最想问你的员工哪些问题？</h6>
-            <input id="fill_questions" type="text" name="question1" value="{{ null !== old('question1') ? old('question1') : $question1 }}">
+            <textarea id="fill_questions" wrap="on" type="text" name="question1">{{ null !== old('question1') ? old('question1') : $question1 }}</textarea>
             <span class="text-danger">{{ Session::get('error_question1') }}</span>
             <button id="submit_question" class="submit">保存</button>
         </form>
@@ -58,5 +58,4 @@
             <button id="submit_personinfo" class="submit">保存</button>
         </form>
     </div>
-
 @endsection
