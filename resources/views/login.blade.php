@@ -1,30 +1,27 @@
 @extends('layout')
 
 @section('content')
-    <h2>登录</h2>
-
-    <hr>
-
-    <form role="form" method="post">
-        {{ csrf_field() }}
-        <div class="form-group">
-            <label for="username">手机号</label>
+    <div class="header raw_lr">
+        <a href="{{ url('/login') }}" class="home left">
+            <img src="{{ asset('img/logo.svg') }}" alt="TGIF" class="logo">
+        </a>
+        <a href="{{ url('/login') }}" class="right btn_login">登入</a>
+    </div>
+    <div class="form_login">
+        <form style="padding: 0.5rem" class="phone" method="post">
+            {{ csrf_field() }}
+            <input type="text" placeholder="输入你的手机" name="username" value="{{ old('username') }}" id="username">
+            <button class="submit" id="requireVerifyCode">发送验证码</button>
             <span class="text-danger">{{ Session::get('error1') }}</span>
-            <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}">
-        </div>
-        <div class="form-group">
-            <label for="password">验证码</label>
-            <button id="requireVerifyCode" type="button" class="btn btn-sm btn-default">获 取</button>
+
+            <input type="text" placeholder="输入短信验证码" name="password" value="{{ old('password') }}">
+            <button class="submit">下一步</button>
             <span class="text-danger">{{ Session::get('error2') }}</span>
-
-            <input type="text" class="form-control" id="password" name="password" value="{{ old('password') }}">
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-default">登入</button>
             <span class="text-danger">{{ Session::get('error3') }}</span>
-        </div>
-    </form>
+        </form>
+    </div>
+
+
     <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
 
     <script>

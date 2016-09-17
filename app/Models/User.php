@@ -53,6 +53,7 @@ class User extends Authenticatable
     {
         $name = null;
         $company_name = null;
+        $company_count = null;
         $position = null;
         $question1 = null;
 
@@ -64,6 +65,7 @@ class User extends Authenticatable
             $company = $employee->company;
             if(!empty($company)) {
                 $company_name = $company['company_name'];
+                $company_count = $company['company_count'];
                 $form = $company->nowForm;
                 if(!empty($form)) {
                     $question = $form->questions()->first();
@@ -78,6 +80,7 @@ class User extends Authenticatable
             'name' => $name,
             'position' => $position,
             'company_name' => $company_name,
+            'company_count' => !empty($company_count)? $company_count : '',
             'question1' => $question1,
             'rank' => $this->rank(),
             'invite_link' => $this->inviteLink(),
