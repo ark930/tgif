@@ -1,12 +1,5 @@
 @extends('admin.main')
 
-@section('sidebar')
-    <div class="list-group">
-        <a href="{{ url()->route('admin_apply') }}" class="list-group-item active">审核页面</a>
-        <a href="{{ url()-> route('admin_data') }}" class="list-group-item">数据页面</a>
-    </div>
-@endsection
-
 @section('admin_content')
     <ul class="nav nav-tabs nav-justified" role="tablist">
         <li role="presentation" class="{{ Request::url() == url()->route('admin_apply') ? 'active' : '' }}">
@@ -45,11 +38,11 @@
                     <td>
                         <form method="post" action="/admin/apply/approve/{{ $user['id'] }}" style="display: inline;">
                             {{ csrf_field() }}
-                            <button type="submit" class="btn btn-sm btn-default">通过</button>
+                            <button type="submit" class="btn btn-sm btn-success">通过</button>
                         </form>
                         <form method="post" action="/admin/apply/reject/{{ $user['id'] }}" style="display: inline;">
                             {{ csrf_field() }}
-                            <button type="submit" class="btn btn-sm btn-default">拒绝</button>
+                            <button type="submit" class="btn btn-sm btn-danger">拒绝</button>
                         </form>
                     </td>
                 @endif

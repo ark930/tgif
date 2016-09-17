@@ -5,9 +5,7 @@
 
     <hr>
 
-    <div class="col-md-2">
-        @yield('sidebar')
-    </div>
+    @include('admin.sidebar')
 
     <div class="col-md-10">
         @section('admin_content')
