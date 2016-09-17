@@ -44,10 +44,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof BadRequestException) {
-            return redirect()->back()->withErrors($exception->getMessage());
-        }
-
         return parent::render($request, $exception);
     }
 

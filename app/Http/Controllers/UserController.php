@@ -47,7 +47,8 @@ class UserController extends BaseController
         $verify_code_refresh_time = strtotime($user['verify_code_refresh_at']);
         if(!empty($user['verify_code_refresh_at']) && $verify_code_refresh_time > time()) {
             $seconds = $verify_code_refresh_time - time();
-            throw new BadRequestException("请求失败, 请在 $seconds 秒后重新请求", 400);
+            return redirect()->back()->withErrors('请求失败, 请在 $seconds 秒后重新请求')->withInput();
+//            throw new BadRequestException("请求失败, 请在 $seconds 秒后重新请求", 400);
         }
 
         $verify_code = mt_rand(100000, 999999);
