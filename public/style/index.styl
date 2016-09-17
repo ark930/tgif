@@ -1,0 +1,125 @@
+@import 'reset.css'
+@import 'w3cshit.styl'
+@import 'kit.styl'
+@import 'grid.styl'
+
+
+// preset
+body
+	set_clr(clr_content)
+	font-family font_family_default
+	set_bgc(clr_background)
+
+*
+	transition_normal()
+
+font_bundle = 'h1, h2, h3, h4, h5, h6, p, .font_s1, .font_s2'
+
+{font_bundle}
+	margin 2*g 0
+h1
+	set_font_level(6)
+h2
+	set_font_level(5)
+h3
+	set_font_level(4)
+h4
+	set_font_level(3)
+h5
+	set_font_level(2)
+h6
+	set_font_level(1)
+p
+	set_font_level()
+.font_s1
+	set_font_level(-1)
+.font_s2
+	set_font_level(-2)
+
+// index
+.header
+	h = 8*g
+	height h
+	.home
+		height h
+		display inline-block
+		padding 2.5*g 3*g
+		width 120px
+		&:hover
+			cursor pointer
+			img.logo
+				opacity v_opt[5]
+		img.logo
+			height 3*g
+	.btn_login
+		set_btn(size:-1, level: 'cta')
+		margin g*1.5
+
+.hero
+	display block
+	.title
+		set_font_level(5)
+	.img
+		//none
+	@media screen and (max-width: desk_w)
+		padding-top 8*g
+		text-align center
+	@media screen and (max-width: pad_w)
+		padding-top 6*g
+		set_width(10,12)
+		set_align()
+	@media screen and (max-width: mob_w)
+		padding-top 0
+		.title
+			text-align left
+			set_align(-1)
+		.mob-none
+			display none
+
+.phone
+	max-width 48*g
+	padding 4*g 2*g
+	margin auto
+	.g1
+		width 100%
+		display flex
+		justify-content: center
+		input
+			set_textarea()
+			flex-grow 2
+			margin 0.5*g
+		button
+			set_btn('success')
+			margin 0.5*g
+	.g2
+		p
+			set_font_level(-2)
+			padding g
+			margin 0
+
+// signup
+.form_login
+	margin 4*g auto
+	input, button
+		margin-bottom g
+	button
+		set_btn('cta')
+
+// queue
+.step
+	set_bgc(color:clr_background)
+	border()
+	shadow_m()
+	radius_l()
+	max-width 48*g
+	padding 2*g
+	margin 2*g auto
+	#submit_question
+		margin-top g
+		set_btn('cta')
+	#submit_personinfo
+		margin-top g
+		set_btn('cta')
+	#fill_questions
+		width 100%
+		height 20*g

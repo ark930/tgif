@@ -1,0 +1,85 @@
+// cols_mob = 4
+// cols_pad = 8
+// cols_desk = 12
+// width_mob 	= 100%
+// width_pad 	= 80%
+// width_desk =  80%
+
+// raw_width = 80%
+
+// gutter = g
+
+// //.raw
+
+// .cols_desk
+// 	width 100%/cols_desk
+// .cols_pad
+// 	width 100%/cols_pad
+// .cols_mob
+// 	width 100%/cols_mob
+
+// .grid
+// 	padding-left gutter
+// 	padding-right gutter
+// 	&-1
+// 		cols_mob
+// 	// inlined 的，前面有多少 col，宽多少 col，padding
+// 		// 
+
+// .break
+// 	// 用于 .grid 换行
+
+//demtions: raw-width, breakpoint, device-w, default
+
+//value
+col_w 	= 15*g
+mob_w 	= col_w * 4
+pad_w 	= col_w * 8
+desk_w 	= col_w * 12
+gutter 	= g
+
+body
+	min-width 40*g //320
+	margin auto
+// class
+.raw
+	max-width 180*g //1440
+.grid
+	float left
+	display inline-block
+	padding 0 g
+
+// function
+set_width(mine, total)
+	width (mine/total)% * 100
+set_align(a = 0)
+	if a < 0
+		float left
+	if a > 0
+		float right
+	if a == 0
+		margin-left auto
+		margin-right auto
+// 左右布局
+.raw_lr
+	.right
+		float right
+
+.raw_66
+	.g1
+		set_width(1,2)
+	.g2
+		set_width(1,2)
+	// mob [320~480]
+	@media screen and (max-width: mob_w)
+		.grid
+			display block
+			set_width(1,1)
+	@media screen and (max-width: pad_w)
+		//none
+	// desk (960~1440]
+	@media screen and (max-width: desk_w)
+		//none
+.raw_lineline
+	.grid
+		set_width(1,1)

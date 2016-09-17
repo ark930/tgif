@@ -1,0 +1,168 @@
+@import 'function.styl'
+
+// layout
+
+.nav
+	height 8*g
+	.left
+		float left
+	.right
+		float right
+	position -webkit-sticky
+	position sticky
+	top 0
+
+.hero_1
+	background-color red
+//
+
+// lnr, 39, 48, 66, 444
+// left, right, middle
+// abslute, relative
+// -
+// feature
+// quote
+// media
+// cta
+// count
+// footer
+// -
+// item:
+// nav(task guide)
+// read
+// chart
+// form
+// list
+
+.card
+	display inline-block
+	padding 1.5*g 2*g
+	set_bgc(clr_white)
+	float left
+	radius_m()
+	shadow_s()
+	&:hover
+		shadow_m()
+	&:active
+		shadow_l()
+	&_readonly
+		border()
+
+	// todo delete
+	width 220px
+	height 180px
+	margin 2*g
+
+
+input(size = 0)
+	// margin 8px //todo delete
+	resize none
+	display inline-block
+	padding 1.5*g 2*g
+	min-width g*14
+	set_radius(size)
+	// float left
+	line-height v_lh[1]
+	if size > 0
+		line-height v_lh[2]
+		padding 2*g 2.5*g
+		min-width g*16
+		font-weight v_fw[2]
+		font-size  v_fz[3]
+	if size < 0
+		padding 1*g 1.5*g
+		min-width g*12
+		font-weight v_fw[1]
+		font-size  v_fz[1]
+
+set_btn(level = 'normal', size = 0)
+	input(size)
+	text-align center
+	font-weight v_fw[2]
+	letter-spacing (g/(2**4))
+	text-decoration none
+	&:hover
+		cursor pointer
+		position relative
+		z-index 3
+	vendor(bgc)
+		set_bgc(bgc)
+		set_clr(clr_white)
+		&:hover
+			shadow_m(bgc, 0.65)
+		&:active
+			shadow_none()
+			background-color darken(bgc, 15%)
+	if level =='normal'
+		&:hover
+			background-color alpha(clr_black, 7%)
+		&:active
+			background-color alpha(clr_black, 15%)
+	if level =='cta'
+		vendor(clr_primary)
+	if level =='success'
+		vendor(clr_success)
+	if level =='caution'
+		vendor(clr_caution)
+	if level =='danger'
+		vendor(clr_danger)
+	if level =='disable'
+		border()
+		set_bgc(level: 1)
+		set_clr(level: 2)
+		&:hover
+			cursor not-allowed
+
+set_textarea(level = 'normal', size = 0)
+	input(size)
+	font-weight v_fw[0]
+	border()
+	if level == 'normal'
+		&:focus
+			border(a: 2px, b: clr_primary, c: 1)
+	if level == 'disable'
+		set_bgc(level: 1)
+		set_clr(level: 2)
+		&:hover
+			cursor not-allowed
+
+.btn
+	set_btn()
+
+.btn_cta
+	set_btn('cta')
+
+.btn_success
+	set_btn('success')
+
+.btn_caution
+	set_btn('caution')
+
+.btn_danger
+	set_btn('danger')
+
+.btn_disable
+	set_btn('disable')
+
+.textarea
+	set_textarea('normal')
+
+.textarea_disabled
+	set_textarea("disable")
+
+
+button
+	set_btn()
+input[type='text']
+	set_textarea()
+
+.formitem
+	.title
+		set_font_level(-1)
+		margin-bottom g
+	.input
+		//
+	.description
+		//
+	.hint
+		//

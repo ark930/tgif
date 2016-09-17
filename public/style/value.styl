@@ -1,0 +1,121 @@
+// unit
+g = 1rem/2
+
+// color
+clr_black 		= #1E1F20
+clr_spacegray 	= #484D53
+clr_white 		= #F7F9FA
+clr_red 		= #EF5429
+clr_orange 		= #FF6F00
+clr_yellow 		= #F9C215
+clr_grass 		= #BCC44A
+clr_green 		= #8ACE6B
+clr_mint 		= #60E2B4
+clr_blue 		= #43A2E0
+clr_cyan 		= #8BCBBA
+clr_pink 		= #EA9EC3
+clr_purple 		= #CE89E7
+// -
+clr_background 	= clr_white
+clr_content 	= clr_spacegray
+clr_primary 	= clr_blue
+clr_success 	= clr_green
+clr_danger 		= clr_red
+clr_caution 	= clr_yellow
+
+// opacity
+v_opt = 0 0.06 0.1 0.25 0.4 0.75
+// -
+v_opt_bg2 	= v_opt[1]
+v_opt_bdr2 	= v_opt[2]
+v_opt_bdr1 	= v_opt[3]
+v_opt_ctt3 	= v_opt[4]
+v_opt_ctt2 	= v_opt[5]
+
+// transition
+v_trans = 0s 0.14s 0.35s 0.6s
+
+// shadow
+// v_shd = 0 (0 g/8 g/2 0 alpha(clr_content, 0.3)) (0 g/4 g*1 0 alpha(clr_content, 0.25)) (0 g/2 g*2 0 alpha(clr_content, 0.2))
+// (0 g/8 g/2 0 alpha(clr_content, v_opt[4]))
+// (0 g/4 g*1 0 alpha(clr_content, v_opt[3]))
+// (0 g/2 g*2 0 alpha(clr_content, v_opt[2]))
+
+// border
+border_old(a = g/8 , b = clr_content, c = v_opt_bdr1)
+	border a solid alpha(b, c)
+border(a = g/8 , b = clr_content, c = v_opt_bdr1)
+	box-shadow inset 0 0 0 a alpha(b, c)
+	// box-shadow 0 g/8 g/2 0 alpha(a, 0.3)
+
+// radius
+v_radius = 0 (g/3) (g/2) (g/1) (999px)
+
+// font
+// font-family
+font_family_default = BlinkMacSystemFont, Helvetica, Arial, sans-serif
+font_family_code = monospace
+
+// font-lineheight
+v_lh = (2*g) (3*g) (4*g) (5*g) (7*g)
+
+// font-weight
+v_fw = 100 300 500 800
+
+// font-size
+v_fz = (2*g * (1-(1/2**2))) (2*g * (1-(1/2**3))) (2*g) (2*g * (1+(1/2**3))) (2*g * (1+(1/2**2))) (2*g * (1+(1/2**1))) (2*g * (1+(1/2**0))) (2*g * (1+(1/2**-1)))
+// 0.75rem 0.875rem 1rem 1.125rem 1.25rem 1.5rem 2rem 3rem
+
+// level-1
+
+// color
+// opacity
+// transition
+// line-width
+// size
+// radius
+// font-size
+// font-weight
+// line-height
+// font-family
+
+// level-2
+
+// color-scene
+// size-padding
+// size-margin
+// size-height
+// size-width
+// font-level
+
+// level-3
+
+// theme-color
+
+// theme
+// basic
+	clr_bg 		= clr_white
+	clr_ct 		= clr_black
+	clr_primary = clr_blue
+	clr_success = clr_green
+	clr_danger 	= clr_red
+	clr_caution = clr_yellow
+
+//ct sub2 化的方法
+
+	// opt_bg
+	// opt_fg
+
+	// clr_bg2
+	// clr_bg3
+
+// theme-spaceing
+// theme-font
+
+// level-4
+
+// states
+
+// level-5
+
+// kit

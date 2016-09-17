@@ -1,0 +1,121 @@
+@import 'value.styl'
+
+// set bg or sub_bg
+set_bgc(bg = clr_background, level = 0)
+	if light(bg)
+		background-color darken(bg, (level * 4%))
+	else
+		background-color lighten(bg, (level * 4%))
+
+// set color or sub color
+set_clr(clr = clr_content, level = 0)
+	color alpha(clr, (100%-(level * 35%)))
+
+// set_theme
+reset_theme(bgc = clr_background, clr = clr_content)
+	set_bgc(bgc)
+	set_clr(clr)
+
+// set shadow
+shadow_none()
+	box-shadow 0 0 0 0 alpha(clr_black, 0)
+shadow_s(a = clr_black, b = 0.4)
+	box-shadow 0 (g/8) (g/2) (g/-8) alpha(a, b)
+shadow_m(a = clr_black, b = 0.25)
+	box-shadow 0 (g/2) (g*2) (g/-4) alpha(a, b)
+shadow_l(a = clr_black, b = 0.2)
+	box-shadow 0 (g*2) (g*8) (g/-2) alpha(a, b)
+
+// set radius
+set_radius(level)
+	if level == -2
+		border-radius v_radius[0]
+	if level == -1
+		border-radius v_radius[1]
+	if level == 0
+		border-radius v_radius[2]
+	if level == 1
+		border-radius v_radius[3]
+	if level == 2
+		border-radius v_radius[4]
+
+radius_none()
+	border-radius 0
+radius_s()
+	border-radius v_radius[1]
+radius_m()
+	border-radius v_radius[2]
+radius_l()
+	border-radius v_radius[3]
+radius_rounded()
+	border-radius v_radius[4]
+
+// set border
+border_old(a = g/8 , b = clr_content, c = v_opt_bdr1)
+	border a solid alpha(b, c)
+border(a = g/8 , b = clr_content, c = v_opt_bdr1)
+	box-shadow inset 0 0 0 a alpha(b, c)
+	// box-shadow 0 g/8 g/2 0 alpha(a, 0.3)
+
+// set transition time
+transition_none()
+	transition v_trans[0]
+	transition-timing-function ease
+transition_fast()
+	transition v_trans[1]
+	transition-timing-function ease
+transition_normal()
+	transition v_trans[2]
+	transition-timing-function ease
+transition_slow()
+	transition v_trans[3]
+	transition-timing-function ease
+
+// set font level
+font_level(a, b, c, d=0)
+	font-weight a
+	font-size 	b
+	line-height c
+	color 		set_clr(level: d)
+// -
+set_font_level(level = 0)
+	vendor(a, b, c)
+		font-weight a
+		font-size 	b
+		line-height c
+
+	if level == -2
+		vendor(v_fw[2], v_fz[0], v_lh[0])
+		set_clr(level: 2)
+	if level == -1
+		vendor(v_fw[2], v_fz[1], v_lh[1])
+		set_clr(level: 1)
+	if level == 0
+		vendor(v_fw[1], v_fz[2], v_lh[1])
+	if level == 1
+		vendor(v_fw[2], v_fz[2], v_lh[1])
+	if level == 2
+		vendor(v_fw[2], v_fz[3], v_lh[1])
+	if level == 3
+		vendor(v_fw[1], v_fz[4], v_lh[1])
+	if level == 4
+		vendor(v_fw[1], v_fz[5], v_lh[2])
+	if level == 5
+		vendor(v_fw[1], v_fz[6], v_lh[3])
+	if level == 6
+		vendor(v_fw[1], v_fz[7], v_lh[4])
+
+// align
+center()
+	min-height 40*g
+	// 0 = center
+	// 1 = left top
+	// 9 = right bottom
+
+// as card
+
+
+// bg = shit
+// if dark(shit) then
+// color white
+// else color black
