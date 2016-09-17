@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('css')
+    <link href="{{ asset('style/queue.css') }}" rel="stylesheet" media="screen">
+@show
+
 @section('content')
     <div class="header raw_lr">
         <a href="{{ url('/') }}" class="home left">
