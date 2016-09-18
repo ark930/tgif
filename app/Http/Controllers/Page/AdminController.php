@@ -15,21 +15,27 @@ class AdminController extends Controller
 
     public function apply(Request $request)
     {
-        $users = User::where('apply_status', 'applying')->paginate(5);
+        $users = User::where('apply_status', 'applying')
+            ->orderBy('invite_count', 'DESC')
+            ->paginate(5);
 
         return view('admin.apply', ['users' => $users]);
     }
 
     public function approve(Request $request)
     {
-        $users = User::where('apply_status', 'approve')->paginate(5);
+        $users = User::where('apply_status', 'approve')
+            ->orderBy('invite_count', 'DESC')
+            ->paginate(5);
 
         return view('admin.apply', ['users' => $users]);
     }
 
     public function reject(Request $request)
     {
-        $users = User::where('apply_status', 'reject')->paginate(5);
+        $users = User::where('apply_status', 'reject')
+            ->orderBy('invite_count', 'DESC')
+            ->paginate(5);
 
         return view('admin.apply', ['users' => $users]);
     }

@@ -61,6 +61,7 @@ class UserController extends Controller
                 $inviter_id = Session::pull('inviter_id');
                 if(!empty((User::find($inviter_id)))) {
                     $user['inviter_id'] = $inviter_id;
+                    $user['invite_count'] += 1;
                     $user->save();
                 }
             }
@@ -142,8 +143,6 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         if(!empty($user)) {
-//            $user['invite_count'] += 1;
-//            $user->save();
             Session::put('inviter_id', $user_id);
         } else {
             return response('无效的链接', 404);

@@ -82,7 +82,7 @@ class User extends Authenticatable
             'company_name' => $company_name,
             'company_count' => !empty($company_count)? $company_count : '',
             'question1' => $question1,
-            'rank' => $this->rank(),
+//            'rank' => $this->rank(),
             'invite_link' => $this->inviteLink(),
         ];
     }
@@ -92,7 +92,7 @@ class User extends Authenticatable
      *
      * @return mixed
      */
-    private function rank()
+    public function rank()
     {
         return User::where('created_at', '<=', $this->created_at)
             ->where('apply_status', 'applying')

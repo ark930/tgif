@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="hero"><span id="queue">{{ $rank }}</span><br>
+    <div class="hero"><span id="queue">{{ Session::get('user')->rank() }}</span><br>
         <p>个用户正排在你前面</p>
         <p>要更早开始使用，你可以通过一下几种方式</p>
     </div>
