@@ -29,7 +29,7 @@
             <?php $applyInfo = $user->getApplyInfo(); ?>
             <tr data-toggle="modal" data-target="#modal_{{ $user['id'] }}">
                 <td height="50">{{ $user['id'] }}</td>
-                <td>{{ $user['real_name'] }}</td>
+                <td>{{ $applyInfo['name'] }}</td>
                 <td>{{ $applyInfo['company_name'] }}</td>
                 <td>{{ $applyInfo['position'] }}</td>
                 <td>{{ $user['invite_count'] }}</td>
@@ -57,7 +57,7 @@
                     <div role="tabpanel" class="tab-pane active" id="apply_info_{{ $user['id'] }}">
                         <div class="modal-body">
                             <dl class="dl-horizontal">
-                                <dt>姓名</dt><dd>{{ $user['real_name'] }}</dd>
+                                <dt>姓名</dt><dd>{{ $applyInfo['name'] }}</dd>
                                 <dt>手机</dt><dd>{{ $user['tel'] }}</dd>
                                 <dt>公司</dt><dd>{{ $applyInfo['company_name'] }}</dd>
                                 <dt>公司人数</dt><dd>{{ $applyInfo['company_count'] }}</dd>
@@ -81,7 +81,7 @@
                                     </tr>
                                     <tr>
                                         <td height="50">{{ $inviter['id'] }}</td>
-                                        <td>{{ $inviter['real_name'] }}</td>
+                                        <td>{{ $inviterApplyInfo['name'] }}</td>
                                         <td>{{ $inviterApplyInfo['company_name'] }}</td>
                                         <td>{{ $inviterApplyInfo['position'] }}</td>
                                         <td>{{ $inviter['invite_count'] }}</td>
@@ -122,7 +122,7 @@
                                     <?php $inviteeApplyInfo = $invitee->getApplyInfo(); ?>
                                     <tr>
                                         <td height="50">{{ $invitee['id'] }}</td>
-                                        <td>{{ $invitee['real_name'] }}</td>
+                                        <td>{{ $inviteeApplyInfo['name'] }}</td>
                                         <td>{{ $inviteeApplyInfo['company_name'] }}</td>
                                         <td>{{ $inviteeApplyInfo['position'] }}</td>
                                         <td>{{ $invitee['invite_count'] }}</td>
