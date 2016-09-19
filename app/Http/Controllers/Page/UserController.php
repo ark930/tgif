@@ -103,29 +103,29 @@ class UserController extends Controller
 
         if(isset($save_question)) {
             // 保存问题
-            $this->validate($request, [
-                'question1' => 'required',
-            ], [
-                'question1.required' => '请填写问题',
-            ]);
+//            $this->validate($request, [
+//                'question1' => 'required',
+//            ], [
+//                'question1.required' => '请填写问题',
+//            ]);
 
             $question1 = $request->input('question1');
             $this->save_apply_info($user, $question1);
         } else if(isset($save_basic_info)) {
             // 保存基本信息
-            $this->validate($request, [
-                'name' => 'required',
-                'company_name' => 'required',
-                'position' => 'required',
-                'company_count' => 'required|integer|min:1',
-            ], [
-                'name.required' => '请填写你的姓名',
-                'company_name.required' => '请填写你的公司',
-                'position.required' => '请填写你的职位',
-                'company_count.required' => '请填写公司人数',
-                'company_count.integer' => '公司人数必须是个数字',
-                'company_count.min' => '公司人数至少是1',
-            ]);
+//            $this->validate($request, [
+//                'name' => 'required',
+//                'company_name' => 'required',
+//                'position' => 'required',
+//                'company_count' => 'required|integer|min:1',
+//            ], [
+//                'name.required' => '请填写你的姓名',
+//                'company_name.required' => '请填写你的公司',
+//                'position.required' => '请填写你的职位',
+//                'company_count.required' => '请填写公司人数',
+//                'company_count.integer' => '公司人数必须是个数字',
+//                'company_count.min' => '公司人数至少是1',
+//            ]);
 
             $name = $request->input('name');
             $company_name = $request->input('company_name');
