@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    private $per_page = 10;
+
     public function index(Request $request)
     {
         return redirect()->route('admin_apply');
@@ -17,7 +19,7 @@ class AdminController extends Controller
     {
         $users = User::where('apply_status', 'applying')
             ->orderBy('invite_count', 'DESC')
-            ->paginate(5);
+            ->paginate($this->per_page);
 
         return view('admin.apply', ['users' => $users]);
     }
@@ -26,7 +28,7 @@ class AdminController extends Controller
     {
         $users = User::where('apply_status', 'approve')
             ->orderBy('invite_count', 'DESC')
-            ->paginate(5);
+            ->paginate($this->per_page);
 
         return view('admin.apply', ['users' => $users]);
     }
@@ -35,7 +37,7 @@ class AdminController extends Controller
     {
         $users = User::where('apply_status', 'reject')
             ->orderBy('invite_count', 'DESC')
-            ->paginate(5);
+            ->paginate($this->per_page);
 
         return view('admin.apply', ['users' => $users]);
     }

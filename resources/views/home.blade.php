@@ -1,7 +1,11 @@
 @extends('layout')
 
 @section('left_top_button')
-    <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
+    @if(Session::has('user'))
+        <a href="{{ url()->route('people') }}" class="right btn_login btn_cta">{{ Session::get('user')['tel'] }}</a>
+    @else
+        <a href="{{ url('/login') }}" class="right btn_login btn_cta">登入</a>
+    @endif
 @endsection
 
 @section('content')

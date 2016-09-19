@@ -44,6 +44,27 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Employee', 'employee_id');
     }
 
+
+    /**
+     * 被邀请人
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitees()
+    {
+        return $this->hasMany('App\Models\User', 'inviter_id');
+    }
+
+    /**
+     * 邀请人
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function inviter()
+    {
+        return $this->belongsTo('App\Models\User', 'inviter_id');
+    }
+
     /**
      * 获取用户审核信息
      *
@@ -96,7 +117,7 @@ class User extends Authenticatable
     {
         return User::where('created_at', '<=', $this->created_at)
             ->where('apply_status', 'applying')
-            ->count();
+            ->count() + 32;
     }
 
     /**

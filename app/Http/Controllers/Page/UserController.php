@@ -74,6 +74,9 @@ class UserController extends Controller
                 return redirect('apply');
             }
         } else {
+            if(Session::has('user')) {
+                return redirect()->route('people');
+            }
             return view('login');
         }
     }
@@ -182,6 +185,7 @@ class UserController extends Controller
         $employee->save();
 //        $user->employees()->save($employee);
         $user->nowEmployee()->associate($employee);
+        $user['apply_status'] = 'applying';
         $user->save();
 
         if(!empty($question1)) {
