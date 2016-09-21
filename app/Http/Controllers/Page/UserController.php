@@ -49,20 +49,34 @@ class UserController extends Controller
             $username = $request->input('username');
             $password = $request->input('password');
 
-            $user = User::where('tel', $username)
-                ->where('verify_code', $password)
-                ->first();
+            $user = User::where('tel', $username)->first();
+
             if(empty($user)) {
-                return redirect()->back()->withErrors('用户名或验证码错误')->withInput();
+                return redirect()->back()->withErrors('登录失败')->withInput();
+            }
+
+            if($user->ifVerifyCodeExpired()) {
+                return redirect()->back()->withErrors('验证码过期, 请重新获取')->withInput();
+            }
+
+            if($user->ifVerifyCodeRetryTimesExceed()) {
+                return redirect()->back()->withErrors('验证码输入错误次数过多, 已失效, 请重新获取')->withInput();
+            }
+
+            if($user->ifVerifyCodeWrong($password)) {
+                return redirect()->back()->withErrors('验证码错误')->withInput();
             }
 
             // 保存邀请人信息
             if(Session::has('inviter_id')) {
                 $inviter_id = Session::pull('inviter_id');
-                if(!empty((User::find($inviter_id)))) {
-                    $user['inviter_id'] = $inviter_id;
-                    $user['invite_count'] += 1;
+                $inviter = User::find($inviter_id);
+
+                if(!empty($inviter)) {
+                    $user->inviter()->associate($inviter);
                     $user->save();
+                    $inviter['invite_count'] += 1;
+                    $inviter->save();
                 }
             }
 

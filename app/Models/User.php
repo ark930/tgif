@@ -166,6 +166,53 @@ class User extends Authenticatable
     }
 
     /**
+     * 判断用户输入的验证码是否正确
+     *
+     * @param $userInputVerifyCode string 用户输入的验证码
+     * @return bool
+     */
+    public function ifVerifyCodeWrong($userInputVerifyCode)
+    {
+        if($this['verify_code'] != $userInputVerifyCode) {
+            // 验证码错误, 重试次数减一
+            $this['verify_code_retry_times'] -= 1;
+            $this->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断验证码是否失效
+     *
+     * @return bool
+     */
+    public function ifVerifyCodeExpired()
+    {
+        if(strtotime($this['verify_code_expire_at']) <= time()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断验证码手否重试了太多次
+     *
+     * @return bool
+     */
+    public function ifVerifyCodeRetryTimesExceed()
+    {
+        if($this['verify_code_retry_times'] <= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * 获取用户要求链接
      *
      * @return \Illuminate\Contracts\Routing\UrlGenerator|string

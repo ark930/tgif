@@ -45,6 +45,6 @@ class UserController extends Controller
         $message = "【TGIF 验证】您的验证码是$verify_code";
         $SMS->SendSMS($username, $message);
 
-        return response('');
+        return response()->json(['msg' => '验证码已发送至客户端, 请注意查收']);
     }
 }

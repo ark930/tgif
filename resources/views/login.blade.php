@@ -55,7 +55,12 @@
             {
                 var error = JSON.parse(data.responseText);
                 console.log(error);
-                alert(error.username[0]);
+                if(error.error) {
+                    alert(error.error);
+
+                } else {
+                    alert(error.username[0]);
+                }
             }
 
             function countdown(time, button) {
