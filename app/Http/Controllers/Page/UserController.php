@@ -80,6 +80,10 @@ class UserController extends Controller
                 }
             }
 
+            $user->disableVerifyCode();
+            $user->ifFirstLogin();
+            $user->updateLastLogin();
+
             Session::put('user', $user);
 
             if($user['apply_status'] == 'approve') {

@@ -213,6 +213,39 @@ class User extends Authenticatable
     }
 
     /**
+     * 登录成功后, 验证码立即失效
+     */
+    public function disableVerifyCode()
+    {
+        $this['verify_code_expire_at'] = null;
+        $this['verify_code_refresh_at'] = null;
+        $this['verify_code_retry_times'] = 0;
+        $this->save();
+    }
+
+    /**
+     * 判断用户是否是第一次登录, 如果是第一次登录, 则设置第一次登录时间
+     */
+    public function ifFirstLogin()
+    {
+        if(empty($this['first_login_at'])) {
+            $now = date('Y-m-d H:i:s', time());
+            $this['first_login_at'] = $now;
+            $this->save();
+        }
+    }
+
+    /**
+     * 更新最后一次登录的时间
+     */
+    public function updateLastLogin()
+    {
+        $now = date('Y-m-d H:i:s', time());
+        $this['last_login_at'] = $now;
+        $this->save();
+    }
+
+    /**
      * 获取用户要求链接
      *
      * @return \Illuminate\Contracts\Routing\UrlGenerator|string
