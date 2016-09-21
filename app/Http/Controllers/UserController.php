@@ -2,21 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
-use Illuminate\Support\Facades\Session;
 use Storage;
-use App\Services\IMService;
 use App\Contracts\SMSServiceContract;
 use App\Exceptions\BadRequestException;
-use App\Models\Device;
-use App\Models\Follower;
-use App\Models\Group;
 use App\Models\User;
-use App\Models\UserGroup;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-
 
 class UserController extends BaseController
 {
@@ -44,186 +34,18 @@ class UserController extends BaseController
             $user = User::create(['tel' => $username]);
         }
         
-        $verify_code_refresh_time = strtotime($user['verify_code_refresh_at']);
-        if(!empty($user['verify_code_refresh_at']) && $verify_code_refresh_time > time()) {
-            $seconds = $verify_code_refresh_time - time();
-            return redirect()->back()->withErrors('请求失败, 请在 $seconds 秒后重新请求')->withInput();
-//            throw new BadRequestException("请求失败, 请在 $seconds 秒后重新请求", 400);
+        if($user->ifGetVerifyCodeTooFrequently()) {
+            $seconds = $user->verifyCodeRetryAfterSeconds();
+            throw new BadRequestException("请求失败, 请在 $seconds 秒后重新请求", 400);
         }
 
-        $verify_code = mt_rand(100000, 999999);
-        $verify_code_refresh_at = date('Y-m-d H:i:s', strtotime("+1 minute"));
-        $verify_code_expire_at = date('Y-m-d H:i:s', strtotime("+5 minute"));
-        $verify_code_retry_times = 4;
-
-        $user['verify_code'] = $verify_code;
-        $user['verify_code_refresh_at'] = $verify_code_refresh_at;
-        $user['verify_code_expire_at'] = $verify_code_expire_at;
-        $user['verify_code_retry_times'] = $verify_code_retry_times;
-        $user->save();
+        $verify_code = $user->setVerifyCode();
 
         // 向手机发送验证码短信
-        $message = "【云片网】您的验证码是$verify_code";
+        $message = "【TGIF 验证】您的验证码是$verify_code";
         $SMS->SendSMS($username, $message);
 
-        return response(['msg' => '验证码已发送至手机, 请注意查收'], 200);
-    }
-
-    /**
-     * 登录
-     *
-     * @param Request $request
-     * @return mixed
-     * @throws BadRequestException
-     */
-    public function login(Request $request)
-    {
-        $this->validateParams($request->all(), [
-            'tel' => 'required|exists:users,tel',
-            'verify_code' => 'required',
-            'ip' => 'required',
-            'client' => 'required',
-        ]);
-
-        $username = $request->input('tel');
-        $verify_code = $request->input('verify_code');
-        $user = User::where('tel', $username)->first();
-
-        if(empty($user)) {
-            throw new BadRequestException('登录失败', 400);
-        }
-
-        if(strtotime($user['verify_code_expire_at']) <= time()) {
-            throw new BadRequestException('验证码过期, 请重新获取', 400);
-        }
-
-        if($user['verify_code_retry_times'] <= 0) {
-            throw new BadRequestException('验证码输入错误次数过多, 已失效, 请重新获取', 400);
-        }
-
-        if($user['verify_code'] != $verify_code) {
-            // 验证码错误, 重试次数减一
-            $verify_code_retry_times = $user['verify_code_retry_times'];
-            $verify_code_retry_times--;
-            $user['verify_code_retry_times'] = $verify_code_retry_times;
-            $user->save();
-
-            throw new BadRequestException('验证码错误', 400);
-        }
-
-        $ip = $request->input('ip');
-        $client = $request->input('client');
-
-        $device = $user->devices()
-            ->where('ip', $ip)
-            ->where('client', $client)
-            ->first();
-
-        $api_token_length = config('message.api_token_length');
-        $api_token = str_random($api_token_length);
-        if(empty($device)) {
-            $device = new Device([
-                'user_id' => $user['id'],
-                'ip' => $ip,
-                'client' => $client,
-                'api_token' => $api_token,
-            ]);
-        } else {
-            $device['api_token'] = $api_token;
-        }
-        $device->save();
-
-        $now = date('Y-m-d H:i:s', time());
-        if(empty($user['first_login_at'])) {
-            $user['first_login_at'] = $now;
-        }
-        // 登录成功后, 验证码立即失效
-        $user['verify_code_expire_at'] = null;
-        $user['verify_code_refresh_at'] = null;
-        $user['verify_code_retry_times'] = 0;
-        $user['last_login_at'] = $now;
-        $user->save();
-
-        $user['api_token'] = $api_token;
-
-        return $user;
-    }
-
-    /**
-     * 获取本用户个人信息
-     * 
-     * @param Request $request
-     * @return mixed
-     */
-    public function getUserProfile(Request $request)
-    {
-        $user_id = $this->user_id();
-
-        $user = User::find($user_id);
-
-        return $user;
-    }
-
-    /**
-     * 编辑个人信息
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     * @throws BadRequestException
-     */
-    public function editUserProfile(Request $request)
-    {
-        $user = $this->user();
-
-        $username = $request->input('username');
-        $display_name = $request->input('display_name');
-        $email = $request->input('email');
-        $tel = $request->input('tel');
-
-        if(!empty($username)) {
-            $user['user_name'] = $username;
-        }
-
-        if(!empty($display_name)) {
-            $user['display_name'] = $display_name;
-        }
-
-        if(!empty($email)) {
-            $user['email'] = $email;
-        }
-
-        if(!empty($tel)) {
-            $user['tel'] = $tel;
-        }
-
-        $display_name = $user->getDisplayName();
-        if(empty($user['avatar_url'])) {
-            require(dirname(__FILE__) . "/md/MaterialDesign.Avatars.class.php");
-
-            $avatar_word = mb_substr($display_name, 0, 1);
-            $avatar = new \Md\MDAvatars($avatar_word);
-            $newFileName = sha1(time().rand(0,10000)).'.png';
-            $savePath = 'avatar/'.$newFileName;
-            $tmpPath = '/tmp/'.$newFileName;
-            $avatar->Save($tmpPath);
-            $avatar->Free();
-
-            $bytes = Storage::put(
-                $savePath,
-                file_get_contents($tmpPath)
-            );
-
-            if(!Storage::exists($savePath)) {
-                throw new BadRequestException('保存文件失败', 400);
-            }
-
-            unlink($tmpPath);
-            $user['avatar_url'] = $savePath;
-        }
-
-        $user->save();
-
-        return response('', 200);
+        return response('');
     }
 
     /**

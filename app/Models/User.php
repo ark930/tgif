@@ -121,6 +121,51 @@ class User extends Authenticatable
     }
 
     /**
+     * 设置验证码
+     */
+    public function setVerifyCode()
+    {
+        $verify_code = mt_rand(100000, 999999);
+        $verify_code_refresh_at = date('Y-m-d H:i:s', strtotime("+1 minute"));
+        $verify_code_expire_at = date('Y-m-d H:i:s', strtotime("+2 minute"));
+        $verify_code_retry_times = 4;
+
+        $this['verify_code'] = $verify_code;
+        $this['verify_code_refresh_at'] = $verify_code_refresh_at;
+        $this['verify_code_expire_at'] = $verify_code_expire_at;
+        $this['verify_code_retry_times'] = $verify_code_retry_times;
+        $this->save();
+
+        return $verify_code;
+    }
+
+    /**
+     * 检查是否获取验证码过于频繁
+     *
+     * @return bool
+     */
+    public function ifGetVerifyCodeTooFrequently()
+    {
+        if(!empty($this['verify_code_refresh_at']) && strtotime($this['verify_code_refresh_at']) > time()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 需要多少秒才能重新获取验证码
+     *
+     * @return false|int
+     */
+    public function verifyCodeRetryAfterSeconds()
+    {
+        $seconds = strtotime($this['verify_code_refresh_at']) - time();
+
+        return $seconds;
+    }
+
+    /**
      * 获取用户要求链接
      *
      * @return \Illuminate\Contracts\Routing\UrlGenerator|string
