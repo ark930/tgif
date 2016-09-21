@@ -19,7 +19,6 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function() {
     Route::group(['middleware' => 'throttle:10000'], function () {
-        Route::post('login', 'UserController@login');
-        Route::post('verifycode', 'UserController@verifyCode');
+        Route::post('verifycode', 'Api\UserController@verifyCode');
     });
 });
