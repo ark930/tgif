@@ -45,7 +45,7 @@
                     dataType: 'json',
                     success: function (data) {
                         console.log('success');
-                        countdown(60, $('#requireVerifyCode'));
+                            countdown(120, $('#requireVerifyCode'));
                     },
                     error: errorHandler
                 });

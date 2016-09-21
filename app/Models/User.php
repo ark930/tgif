@@ -126,7 +126,7 @@ class User extends Authenticatable
     public function setVerifyCode()
     {
         $verify_code = mt_rand(100000, 999999);
-        $verify_code_refresh_at = date('Y-m-d H:i:s', strtotime("+1 minute"));
+        $verify_code_refresh_at = date('Y-m-d H:i:s', strtotime("+2 minute"));
         $verify_code_expire_at = date('Y-m-d H:i:s', strtotime("+2 minute"));
         $verify_code_retry_times = 4;
 
