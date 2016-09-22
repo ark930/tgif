@@ -61,7 +61,7 @@ Route::group(['middleware' => 'user_auth'], function() {
 // 后台管理页面
 Route::group([
     'prefix' => 'admin',
-    'middleware' => 'admin_auth',
+    'middleware' => ['user_auth', 'admin_auth'],
 ], function() {
     Route::get('/', 'Page\AdminController@index');
 
@@ -78,3 +78,6 @@ Route::group([
     Route::get('data', ['as' => 'admin_data', 'uses' => 'Page\AdminController@data']);
 
 });
+
+Route::get('test1', 'TestController@test1');
+

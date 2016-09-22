@@ -16,7 +16,7 @@ class AdminAuth
      */
     public function handle($request, Closure $next)
     {
-        if (! Session::has('user')) {
+        if (! Session::has('user') || Session::get('user')['id'] > 32) {
             return response('没有访问该页面的权限', 401);
         }
 
