@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +47,8 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof BadRequestException) {
             return response()->json(['error' => $exception->getMessage()], $exception->getCode());
+        } else if ($exception instanceof TokenMismatchException){
+            return redirect('/login')->withErrors('会话已过期, 请重新登录');
         }
 
         return parent::render($request, $exception);
