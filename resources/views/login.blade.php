@@ -53,13 +53,10 @@
 
             function errorHandler(data)
             {
-                var error = JSON.parse(data.responseText);
-                console.log(error);
-                if(error.error) {
-                    alert(error.error);
-
-                } else {
-                    alert(error.username[0]);
+                var res = JSON.parse(data.responseText);
+                console.log(res);
+                if(res.error) {
+                    alert(res.error);
                 }
             }
 

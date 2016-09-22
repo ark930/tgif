@@ -33,4 +33,29 @@ class Employee extends Model
     {
         return $this->belongsTo('App\Models\Company', 'company_id');
     }
+
+    public function createEmployee($ceo_id, $username, $real_name, $position)
+    {
+        $ceo = User::find($ceo_id);
+        $company = $ceo->nowEmployee->company;
+
+        $user = new User();
+        $user['inviter_id'] = $ceo['id'];
+        $user['real_name'] = $real_name;
+        $user['tel'] = $username;
+        $user['apply_status'] = 'applying';
+        $user->save();
+
+        $employee = new Employee();
+        $employee['user_id'] = $user['id'];
+        $employee['company_id'] = $company['id'];
+        $employee['real_name'] = $real_name;
+        $employee['role'] = 'employee';
+        $employee['position'] = $position;
+        $employee->save();
+
+        $user->nowEmployee()->associate($employee);
+        $user->save();
+
+    }
 }
