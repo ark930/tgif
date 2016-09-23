@@ -106,9 +106,9 @@ class UserController extends Controller
                 return redirect('apply');
             }
         } else {
-            if(Session::has('user')) {
-                return redirect()->route('people');
-            }
+//            if(Session::has('user')) {
+//                return redirect()->route('people');
+//            }
             return view('login');
         }
     }
