@@ -12,16 +12,9 @@
 */
 
 //  首页
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'Page\UserController@home');
 
 Route::post('/', 'Page\UserController@freeTrial');
-
-
-// 邀请页面
-Route::get('invite/{user_id}', 'Page\UserController@invite')
-    ->where('user_id', '[0-9]+');
 
 // 登录页面
 Route::match(['get', 'post'], 'login', 'Page\UserController@login');

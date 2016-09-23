@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+    public function home(Request $request)
+    {
+        $inviter_id = $request->input('from');
+
+        if(isset($inviter_id)) {
+            $inviter = User::find($inviter_id);
+
+            if(!empty($inviter)) {
+                Session::put('inviter_id', $inviter_id);
+            }
+        }
+
+        return view('home');
+    }
 
     public function freeTrial(Request $request)
     {
@@ -157,19 +171,6 @@ class UserController extends Controller
         }
 
         return redirect('apply')->with('success', '保存成功');
-    }
-
-    public function invite($user_id)
-    {
-        $user = User::find($user_id);
-
-        if(!empty($user)) {
-            Session::put('inviter_id', $user_id);
-        } else {
-            return response('无效的链接', 404);
-        }
-
-        return redirect('/');
     }
 
     private function save_apply_info($user, $question1, $name = null, $position = null, $company_name = null, $company_count = null)
