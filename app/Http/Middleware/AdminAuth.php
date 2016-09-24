@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Session;
 
@@ -16,7 +17,16 @@ class AdminAuth
      */
     public function handle($request, Closure $next)
     {
-        if (! Session::has('user') || Session::get('user')['id'] > 32) {
+        if (!Session::has('user')) {
+            return response('没有访问该页面的权限', 401);
+        }
+
+        $user = User::find(Session::get('user')['id']);
+        if(empty($user)) {
+            return response('没有访问该页面的权限', 401);
+        }
+
+        if($user->isAdmin() == false) {
             return response('没有访问该页面的权限', 401);
         }
 

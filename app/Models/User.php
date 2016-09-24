@@ -246,6 +246,20 @@ class User extends Authenticatable
     }
 
     /**
+     * 判断是否具有管理员权限
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        if($this['is_admin'] == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * 获取用户要求链接
      *
      * @return \Illuminate\Contracts\Routing\UrlGenerator|string
