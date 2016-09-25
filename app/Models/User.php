@@ -266,7 +266,7 @@ class User extends Authenticatable
      */
     private function inviteLink()
     {
-        return url('invite/' . $this['id']);
+        return url('/?from=' . $this['id']);
     }
 
 }
