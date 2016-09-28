@@ -35,6 +35,18 @@ class SMSService implements SMSServiceContract
         return $body;
     }
 
+    public function SendSMSByTemplate($tel, $temp_id, $code)
+    {
+        $body = $this->requestForm('POST', 'sms/tpl_single_send.json', [
+            'apikey' => $this->apiKey,
+            'mobile' => $tel,
+            'tpl_id' => $temp_id,
+            'tpl_value' => urlencode("#code#") . "=" . urlencode($code),
+        ]);
+
+        return $body;
+    }
+
     protected function exceptionHandler(Exception $e)
     {
         if($e instanceof RequestException) {
